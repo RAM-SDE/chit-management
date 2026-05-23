@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <th:block th:replace="~{layouts/header :: common_head('Customers')}"></th:block>
+</head>
+
+<body>
+
+<div th:replace="~{layouts/navbar :: navbar}"></div>
+<div th:replace="~{layouts/sidebar :: sidebar}"></div>
+<div id="sidebarOverlay"></div>
+
+<div id="mainContent" class="p-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4 class="fw-bold mb-0">
+            <i class="fas fa-users me-2 text-primary"></i>Customers
+        </h4>
+        <a th:href="@{/customers/new}" class="btn btn-primary btn-sm">
+            <i class="fas fa-user-plus me-1"></i>Add Customer
+        </a>
+    </div>
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-0">
+            <table id="customerTable"
+                   data-toggle="table"
+                   data-url="/api/customers"
+                   data-side-pagination="server"
+                   data-pagination="true"
+                   data-page-size="10"
+                   data-page-list="[10,25,50]"
+                   data-search="true"
+                   data-search-on-enter-key="false"
+                   data-query-params="queryParams"
+                   data-classes="table table-hover align-middle mb-0"
+                   data-thead-classes="table-light"
+                   data-response-handler="responseHandler">
+                <thead>
+                <tr>
+                    <th data-field="index"
+                        data-formatter="indexFormatter">#</th>
+                    <th data-field="name"
+                        data-sortable="true">Name</th>
+                    <th data-field="phone"
+                        data-sortable="true">Phone</th>
+                    <th data-field="email"
+                        data-sortable="true">Email</th>
+                    <th data-field="address">Address</th>
+                    <th data-field="active"
+                        data-formatter="statusFormatter">Status</th>
+                    <th data-field="uuid"
+                        data-formatter="actionFormatter">Actions</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<div th:replace="~{layouts/profile :: profileEdit}"></div>
+<th:block th:replace="~{layouts/footer :: common_footer}"></th:block>
+
+<script th:src="@{/js/navbar.js}"></script>
+<script th:src="@{/js/sidebar.js}"></script>
+<script>
+    let tableIndex = 0;
+
+    // ── Query params — send search + pagination ─
+    function queryParams(params) {
+        return {
+            limit:  params.limit,
+            offset: params.offset,
+            search: params.search || ''
+        };
+    }
+
+    // ── Response handler ───────────────────────
+    function responseHandler(res) {
+        tableIndex = 0;
+        return res;
+    }
+
+    // ── Index formatter ────────────────────────
+    function indexFormatter(value, row, index) {
+        return ++tableIndex;
+    }
+
+    // ── Status badge ───────────────────────────
+    function statusFormatter(value) {
+        return value
+            ? '<span class="badge bg-success">Active</span>'
+            : '<span class="badge bg-danger">Inactive</span>';
+    }
+
+    // ── Action buttons ─────────────────────────
+    function actionFormatter(value, row) {
+        const uuid = row.uuid;
+
+        const editBtn = `
+        <a href="/customers/edit/${uuid}"
+           class="btn btn-sm btn-outline-warning" title="Edit">
+            <i class="fas fa-edit"></i>
+        </a>`;
+
+        const deleteBtn = row.active ? `
+        <button class="btn btn-sm btn-outline-danger"
+                onclick="confirmDelete('${uuid}')"
+                title="Deactivate">
+            <i class="fas fa-trash"></i>
+        </button>` : '';
+
+        return `
+        <div class="d-flex gap-1">
+            <a href="/customers/view/${uuid}"
+               class="btn btn-sm btn-outline-info" title="View">
+                <i class="fas fa-eye"></i>
+            </a>
+            ${editBtn}
+            ${deleteBtn}
+        </div>`;
+    }
+
+    // ── Delete confirm ─────────────────────────
+    function confirmDelete(uuid) {
+        Swal.fire({
+            title: 'Deactivate Customer?',
+            text: 'This customer will be deactivated.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, Deactivate',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '/api/customers/' + uuid,
+                    type: 'DELETE',
+                    success: function (res) {
+                        alertify.success(res.message);
+                        $('#customerTable').bootstrapTable('refresh');
+                    },
+                    error: function (err) {
+                        alertify.error(
+                            err.responseJSON?.error || 'Something went wrong'
+                        );
+                    }
+                });
+            }
+        });
+    }
+</script>
+
+</body>
+</html>

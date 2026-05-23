@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{layouts/header :: common_head('Chit Plan Form')}"></th:block>
+</head>
+<body>
+
+<div th:replace="~{layouts/navbar :: navbar}"></div>
+<div th:replace="~{layouts/sidebar :: sidebar}"></div>
+<div id="sidebarOverlay"></div>
+
+<div id="mainContent" class="p-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4 class="fw-bold mb-0">
+            <i class="fas fa-file-contract me-2 text-primary"></i>
+            <span id="formTitle">New Chit Plan</span>
+        </h4>
+        <a th:href="@{/chit-plans}"
+           class="btn btn-outline-secondary btn-sm">
+            <i class="fas fa-arrow-left me-1"></i>Back
+        </a>
+    </div>
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-4">
+            <form id="chitPlanForm">
+                <input type="hidden" id="planUuid">
+
+                <div class="row g-3">
+
+                    <!-- Plan Name -->
+                    <div class="col-md-6">
+                        <label class="form-label">
+                            Plan Name <span class="text-danger">*</span>
+                        </label>
+                        <input type="text" id="planName"
+                               class="form-control"
+                               placeholder="Enter plan name">
+                        <div id="planNameError"
+                             class="text-danger small mt-1"></div>
+                    </div>
+
+                    <!-- Total Amount -->
+                    <div class="col-md-6">
+                        <label class="form-label">
+                            Total Amount (₹) <span class="text-danger">*</span>
+                        </label>
+                        <input type="number" id="totalAmount"
+                               class="form-control"
+                               placeholder="e.g. 100000"
+                               min="1000" step="0.01">
+                        <div id="totalAmountError"
+                             class="text-danger small mt-1"></div>
+                    </div>
+
+                    <!-- Duration -->
+                    <div class="col-md-4">
+                        <label class="form-label">
+                            Duration (Months) <span class="text-danger">*</span>
+                        </label>
+                        <input type="number" id="durationMonths"
+                               class="form-control"
+                               placeholder="e.g. 12"
+                               min="1" max="120">
+                        <div id="durationMonthsError"
+                             class="text-danger small mt-1"></div>
+                    </div>
+
+                    <!-- Monthly Amount — auto calculated -->
+                    <div class="col-md-4">
+                        <label class="form-label">
+                            Monthly Amount (₹)
+                            <small class="text-muted">(auto)</small>
+                        </label>
+                        <input type="text" id="monthlyAmount"
+                               class="form-control bg-light"
+                               placeholder="Auto calculated"
+                               readonly>
+                    </div>
+
+                    <!-- Total Members -->
+                    <div class="col-md-4">
+                        <label class="form-label">
+                            Total Members <span class="text-danger">*</span>
+                        </label>
+                        <input type="number" id="totalMembers"
+                               class="form-control"
+                               placeholder="e.g. 20"
+                               min="2" max="1000">
+                        <div id="totalMembersError"
+                             class="text-danger small mt-1"></div>
+                    </div>
+
+                    <!-- Start Date -->
+                    <div class="col-md-4">
+                        <label class="form-label">
+                            Start Date <span class="text-danger">*</span>
+                        </label>
+                        <input type="date" id="startDate"
+                               class="form-control">
+                        <div id="startDateError"
+                             class="text-danger small mt-1"></div>
+                    </div>
+
+                    <!-- End Date — auto calculated -->
+                    <div class="col-md-4">
+                        <label class="form-label">
+                            End Date
+                            <small class="text-muted">(auto)</small>
+                        </label>
+                        <input type="text" id="endDate"
+                               class="form-control bg-light"
+                               placeholder="Auto calculated"
+                               readonly>
+                    </div>
+
+                </div>
+
+                <div class="d-flex gap-2 mt-4">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-1"></i>
+                        <span id="submitBtnText">Save Plan</span>
+                    </button>
+                    <a th:href="@{/chit-plans}"
+                       class="btn btn-outline-secondary">Cancel</a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<div th:replace="~{layouts/profile :: profileEdit}"></div>
+<th:block th:replace="~{layouts/footer :: common_footer}"></th:block>
+
+<script th:src="@{/js/navbar.js}"></script>
+<script th:src="@{/js/sidebar.js}"></script>
+<script th:inline="javascript">
+    const PAGE_UUID = /*[[${uuid}]]*/ null;
+</script>
+<script th:src="@{/js/chitplan/save-chitplan.js}"></script>
+
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{layouts/header :: common_head('All Payments')}"></th:block>
+</head>
+<body>
+
+<div th:replace="~{layouts/navbar :: navbar}"></div>
+<div th:replace="~{layouts/sidebar :: sidebar}"></div>
+<div id="sidebarOverlay"></div>
+
+<div id="mainContent" class="p-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4 class="fw-bold mb-0">
+            <i class="fas fa-money-bill-wave me-2 text-primary"></i>
+            All Payments
+        </h4>
+        <a th:href="@{/payments/record}"
+           class="btn btn-primary btn-sm">
+            <i class="fas fa-plus-circle me-1"></i>Record Payment
+        </a>
+    </div>
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-0">
+            <table id="paymentTable"
+                   data-toggle="table"
+                   data-url="/api/payments"
+                   data-side-pagination="server"
+                   data-pagination="true"
+                   data-page-size="10"
+                   data-page-list="[10,25,50]"
+                   data-search="true"
+                   data-search-on-enter-key="false"
+                   data-query-params="queryParams"
+                   data-classes="table table-hover align-middle mb-0"
+                   data-thead-classes="table-light"
+                   data-response-handler="responseHandler">
+                <thead>
+                <tr>
+                    <th data-field="index"
+                        data-formatter="indexFormatter">#</th>
+                    <th data-field="receiptNo"
+                        data-sortable="true">Receipt No</th>
+                    <th data-field="customerName"
+                        data-sortable="true">Customer</th>
+                    <th data-field="customerPhone"
+                        data-sortable="true">Phone</th>
+                    <th data-field="planName"
+                        data-sortable="true">Plan</th>
+                    <th data-field="monthNumber"
+                        data-sortable="true">Month</th>
+                    <th data-field="amountPaid"
+                        data-formatter="amountFormatter"
+                        data-sortable="true">Amount Paid</th>
+                    <th data-field="dueAmount"
+                        data-formatter="amountFormatter"
+                        data-sortable="true">Due Amount</th>
+                    <th data-field="paymentMode"
+                        data-sortable="true">Mode</th>
+                    <th data-field="status"
+                        data-formatter="statusFormatter"
+                        data-sortable="true">Status</th>
+                    <th data-field="collectedBy"
+                        data-sortable="true">Collected By</th>
+                    <th data-field="paymentDate"
+                        data-sortable="true">Date</th>
+                    <th data-field="uuid"
+                        data-formatter="actionFormatter"
+                        data-events="actionEvents" data-sortable="false">Action</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{layouts/profile :: profileEdit}"></div>
+<th:block th:replace="~{layouts/footer :: common_footer}"></th:block>
+
+<script th:src="@{/js/navbar.js}"></script>
+<script th:src="@{/js/sidebar.js}"></script>
+<script th:src="@{/js/payment/view-payment.js}"></script>
+
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head>
+    <th:block th:replace="~{layouts/header :: common_head('Customer Details')}"></th:block>
+</head>
+
+<body>
+
+<div th:replace="~{layouts/navbar :: navbar}"></div>
+<div th:replace="~{layouts/sidebar :: sidebar}"></div>
+<div id="sidebarOverlay"></div>
+
+<div id="mainContent" class="p-4">
+
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4 class="fw-bold mb-0">
+            <i class="fas fa-user me-2 text-primary"></i>Customer Details
+        </h4>
+        <div class="d-flex gap-2">
+            <!-- Edit — Admin only -->
+            <a id="editBtn"
+               href="#"
+               class="btn btn-warning btn-sm"
+               sec:authorize="hasRole('ROLE_ADMIN')">
+                <i class="fas fa-edit me-1"></i>Edit
+            </a>
+            <a th:href="@{/customers}" class="btn btn-outline-secondary btn-sm">
+                <i class="fas fa-arrow-left me-1"></i>Back
+            </a>
+        </div>
+    </div>
+
+    <!-- Loading spinner -->
+    <div id="loadingSpinner" class="text-center py-5">
+        <div class="spinner-border text-primary" role="status"></div>
+    </div>
+
+    <!-- Detail Card -->
+    <div id="customerCard" class="card border-0 shadow-sm" style="display:none;">
+        <div class="card-body p-4">
+
+            <div class="row g-4">
+
+                <!-- Name -->
+                <div class="col-md-6">
+                    <label class="text-muted small fw-semibold">
+                        <i class="fas fa-user me-1"></i>Full Name
+                    </label>
+                    <p class="fw-bold fs-5 mb-0" id="viewName">—</p>
+                </div>
+
+                <!-- Phone -->
+                <div class="col-md-6">
+                    <label class="text-muted small fw-semibold">
+                        <i class="fas fa-phone me-1"></i>Phone
+                    </label>
+                    <p class="fw-semibold mb-0" id="viewPhone">—</p>
+                </div>
+
+                <!-- Email -->
+                <div class="col-md-6">
+                    <label class="text-muted small fw-semibold">
+                        <i class="fas fa-envelope me-1"></i>Email
+                    </label>
+                    <p class="mb-0" id="viewEmail">—</p>
+                </div>
+
+                <!-- Aadhar No -->
+                <div class="col-md-6">
+                    <label class="text-muted small fw-semibold">
+                        <i class="fas fa-id-card me-1"></i>Aadhar No
+                    </label>
+                    <p class="mb-0" id="viewAadharNo">—</p>
+                </div>
+
+                <!-- Address -->
+                <div class="col-12">
+                    <label class="text-muted small fw-semibold">
+                        <i class="fas fa-map-marker-alt me-1"></i>Address
+                    </label>
+                    <p class="mb-0" id="viewAddress">—</p>
+                </div>
+
+                <!-- Status -->
+                <div class="col-md-6">
+                    <label class="text-muted small fw-semibold">
+                        <i class="fas fa-toggle-on me-1"></i>Status
+                    </label>
+                    <p class="mb-0" id="viewStatus">—</p>
+                </div>
+
+                <!-- Registered On -->
+                <div class="col-md-6">
+                    <label class="text-muted small fw-semibold">
+                        <i class="fas fa-calendar me-1"></i>Registered On
+                    </label>
+                    <p class="mb-0" id="viewCreatedAt">—</p>
+                </div>
+
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="mt-4 pt-3 border-top d-flex gap-2">
+                <a id="paymentHistoryBtn"
+                   href="#"
+                   class="btn btn-outline-primary">
+                    <i class="fas fa-history me-2"></i>Payment History
+                </a>
+                <!-- Deactivate — Admin only, shown when active -->
+                <button id="deactivateBtn"
+                        class="btn btn-outline-danger"
+                        style="display:none;"
+                        sec:authorize="hasRole('ROLE_ADMIN')">
+                    <i class="fas fa-ban me-2"></i>Deactivate
+                </button>
+
+                <!-- Activate — Admin only, shown when inactive -->
+                <button id="activateBtn"
+                        class="btn btn-outline-success"
+                        style="display:none;"
+                        sec:authorize="hasRole('ROLE_ADMIN')">
+                    <i class="fas fa-check-circle me-2"></i>Activate
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<div th:replace="~{layouts/profile :: profileEdit}"></div>
+<th:block th:replace="~{layouts/footer :: common_footer}"></th:block>
+
+<script th:src="@{/js/navbar.js}"></script>
+<script th:src="@{/js/sidebar.js}"></script>
+<script th:inline="javascript">
+    const PAGE_UUID = /*[[${uuid}]]*/ null;
+</script>
+<script th:src="@{/js/customer/view-customer.js}"></script>
+
+</body>
+</html>
