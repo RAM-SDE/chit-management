@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Common Header -->
+    <th:block th:replace="~{layouts/header :: common_head('Login Page')}"></th:block>
+    <!-- Login-only CSS -->
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+</head>
+
+<body class="bg-light">
+
+<div class="container d-flex justify-content-center align-items-center vh-100">
+
+    <div class="text-center mb-4">
+        <div class="bg-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+             style="width:72px;height:72px;">
+            <i class="fas fa-coins text-white fa-2x"></i>
+        </div>
+        <h3 class="fw-bold text-primary">ChitManage</h3>
+        <p class="text-muted">Chit Collection Management System</p>
+    </div>
+    <div class="card shadow-lg p-4" style="width: 400px;">
+
+        <h3 class="text-center mb-4 text-primary">Login</h3>
+
+        <form id="loginForm" th:action="@{/api/auth/login}" method="post" >
+            <!-- Email -->
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input type="email"
+                       id="email"
+                       name="email"
+                       class="form-control normal-input"
+                       placeholder="Enter email">
+                <div id="emailError" class="field-error"></div>
+            </div>
+
+            <!-- Password -->
+            <div class="mb-2">
+                <label class="form-label">Password</label>
+                <input type="password"
+                       id="password"
+                       name="password"
+                       class="form-control normal-input"
+                       placeholder="Enter password">
+                <div id="passwordError" class="field-error"></div>
+            </div>
+            <div class="text-start mb-3">
+                <a th:href="@{/forgot-password}" class="text-decoration">
+                    Forgot Password?
+                </a>
+            </div>
+            <!-- Buttons -->
+            <div class="d-flex gap-2">
+                <!-- Login Button -->
+                <button type="submit" class="btn btn-primary w-50">
+                    Login
+                </button>
+
+                <!-- Clear Button -->
+                <button type="reset" class="btn btn-secondary w-50">
+                    Clear
+                </button>
+            </div>
+        </form>
+
+
+    </div>
+
+</div>
+
+
+
+<!-- Common Footer -->
+<th:block th:replace="~{layouts/footer :: common_footer}"></th:block>
+<!-- Login Page JS -->
+<script th:src="@{/js/login.js}"></script>
+</body>
+</html>

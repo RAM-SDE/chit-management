@@ -1,0 +1,283 @@
+/* ── Sidebar wrapper ────────────────────────── */
+#sidebar {
+    width: 260px;
+    height: calc(100vh - 56px);
+    background: #1a1a2e;
+    position: fixed;
+    top: 56px;
+    left: 0;
+    z-index: 999;
+    overflow-y: auto;
+    overflow-x: hidden;
+    transition: width 0.3s ease, left 0.3s ease;
+}
+
+#sidebar.collapsed {
+    width: 60px;
+}
+
+/* ── School name header ─────────────────────── */
+.sidebar-header {
+    padding: 16px;
+    background: #16213e;
+    border-bottom: 1px solid #0f3460;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.sidebar-header span {
+    color: #e2e2e2;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* ── Menu category label ────────────────────── */
+.menu-label {
+    padding: 12px 16px 4px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    color: #6c757d;
+    text-transform: uppercase;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+#sidebar.collapsed .menu-label {
+    visibility: hidden;
+}
+
+/* ── Menu item ──────────────────────────────── */
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 16px;
+    color: #b0b0c0;
+    text-decoration: none;
+    font-size: 14px;
+    cursor: pointer;
+    border-left: 3px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+    overflow: hidden;
+    user-select: none;
+}
+
+.menu-item:hover {
+    background: #16213e;
+    color: #ffffff;
+    border-left-color: #0d6efd;
+    text-decoration: none;
+}
+
+.menu-item.active {
+    background: #16213e;
+    color: #ffffff;
+    border-left-color: #0d6efd;
+}
+
+.menu-item i {
+    width: 20px;
+    min-width: 20px;
+    text-align: center;
+    font-size: 15px;
+    margin-right: 10px;
+}
+
+.menu-item .menu-text {
+    flex: 1;
+}
+
+.menu-item .arrow {
+    font-size: 11px;
+    transition: transform 0.2s;
+}
+
+.menu-item.open .arrow {
+    transform: rotate(90deg);
+}
+
+/* ── Submenu ────────────────────────────────── */
+.submenu {
+    display: none;
+    background: #0f0f1a;
+}
+
+.submenu.open {
+    display: block;
+}
+
+.submenu-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 16px 8px 46px;
+    color: #8888aa;
+    text-decoration: none;
+    font-size: 13px;
+    border-left: 3px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.submenu-item:hover {
+    color: #ffffff;
+    background: #16213e;
+    border-left-color: #0d6efd;
+    text-decoration: none;
+}
+
+.submenu-item.active {
+    color: #ffffff;
+    background: #16213e;
+    border-left-color: #0d6efd;
+}
+
+.submenu-item i {
+    width: 16px;
+    min-width: 16px;
+    font-size: 12px;
+    margin-right: 8px;
+}
+
+/* ── Collapsed state ────────────────────────── */
+#sidebar.collapsed .menu-text,
+#sidebar.collapsed .arrow,
+#sidebar.collapsed .sidebar-header span,
+#sidebar.collapsed .submenu {
+    display: none;
+}
+
+#sidebar.collapsed .menu-item {
+    justify-content: center;
+    padding: 12px;
+    border-left: none;
+}
+
+#sidebar.collapsed .menu-item i {
+    margin-right: 0;
+    font-size: 18px;
+}
+
+#sidebar.collapsed .menu-label {
+    visibility: hidden;
+}
+
+/* ── Main content ───────────────────────────── */
+#mainContent {
+    margin-left: 260px;
+    transition: margin-left 0.3s ease;
+    padding: 20px;
+    margin-top: 56px;
+}
+
+#mainContent.expanded {
+    margin-left: 60px;
+}
+
+/* ── Scrollbar styling ──────────────────────── */
+#sidebar::-webkit-scrollbar {
+    width: 4px;
+}
+
+#sidebar::-webkit-scrollbar-track {
+    background: #1a1a2e;
+}
+
+#sidebar::-webkit-scrollbar-thumb {
+    background: #0f3460;
+    border-radius: 2px;
+}
+
+/* ═══════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════ */
+
+/* ── Overlay ────────────────────────────────── */
+#sidebarOverlay {
+    display: none;
+    position: fixed;
+    top: 56px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 998;
+}
+
+#sidebarOverlay.show {
+    display: block;
+}
+
+/* ── Tablet (768px - 992px) ─────────────────── */
+@media (max-width: 992px) {
+
+    #sidebar {
+        width: 220px;
+    }
+
+    #mainContent {
+        margin-left: 220px;
+    }
+
+    #mainContent.expanded {
+        margin-left: 60px;
+    }
+}
+
+/* ── Mobile (below 768px) ───────────────────── */
+@media (max-width: 768px) {
+
+    /* Hidden off screen by default */
+    #sidebar {
+        left: -260px;
+        width: 260px;
+        transition: left 0.3s ease;
+    }
+
+    /* Slide in when open */
+    #sidebar.mobile-open {
+        left: 0;
+    }
+
+    /* Full width always */
+    #mainContent {
+        margin-left: 0 !important;
+    }
+
+    #mainContent.expanded {
+        margin-left: 0 !important;
+    }
+
+    /* Reset collapsed styles on mobile */
+    #sidebar.collapsed {
+        width: 260px;
+        left: -260px;
+    }
+
+    #sidebar.collapsed .menu-text,
+    #sidebar.collapsed .arrow,
+    #sidebar.collapsed .sidebar-header span {
+        display: block;
+    }
+
+    #sidebar.collapsed .submenu {
+        display: none;
+    }
+
+    #sidebar.collapsed .menu-item {
+        justify-content: flex-start;
+        padding: 10px 16px;
+        border-left: 3px solid transparent;
+    }
+
+    #sidebar.collapsed .menu-item i {
+        margin-right: 10px;
+        font-size: 15px;
+    }
+
+    #sidebar.collapsed .menu-label {
+        visibility: visible;
+    }
+}

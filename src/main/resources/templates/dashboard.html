@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <th:block th:replace="~{layouts/header :: common_head('Dashboard')}">
+    </th:block>
+</head>
+
+<body>
+
+<!-- Navbar -->
+<div th:replace="~{layouts/navbar :: navbar}"></div>
+
+<!-- Sidebar -->
+<div th:replace="~{layouts/sidebar :: sidebar}"></div>
+
+<!-- Main Content -->
+<div id="mainContent" class="p-4">
+
+    <h4 class="mb-4 fw-bold">
+        <i class="fas fa-tachometer-alt me-2 text-primary"></i>Dashboard
+    </h4>
+
+    <!-- Stats Cards -->
+    <div class="row g-3 mb-4">
+        <div class="col-sm-6 col-xl-2">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body d-flex align-items-center gap-3">
+                    <div class="bg-primary bg-opacity-10 rounded-3 p-3">
+                        <i class="fas fa-users fa-lg text-primary"></i>
+                    </div>
+                    <div>
+                        <div class="fs-4 fw-bold" th:text="${totalCustomers}">0</div>
+                        <div class="text-muted small">Customers</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-2">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body d-flex align-items-center gap-3">
+                    <div class="bg-success bg-opacity-10 rounded-3 p-3">
+                        <i class="fas fa-file-contract fa-lg text-success"></i>
+                    </div>
+                    <div>
+                        <div class="fs-4 fw-bold" th:text="${activePlans}">0</div>
+                        <div class="text-muted small">Active Plans</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body d-flex align-items-center gap-3">
+                    <div class="bg-info bg-opacity-10 rounded-3 p-3">
+                        <i class="fas fa-check-circle fa-lg text-info"></i>
+                    </div>
+                    <div>
+                        <div class="fs-4 fw-bold text-info">
+                            ₹<span th:text="${#numbers.formatDecimal(totalCollected,1,'COMMA',2,'POINT')}">0</span>
+                        </div>
+                        <div class="text-muted small">Total Collected</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body d-flex align-items-center gap-3">
+                    <div class="bg-warning bg-opacity-10 rounded-3 p-3">
+                        <i class="fas fa-clock fa-lg text-warning"></i>
+                    </div>
+                    <div>
+                        <div class="fs-4 fw-bold text-warning">
+                            ₹<span th:text="${#numbers.formatDecimal(totalPending,1,'COMMA',2,'POINT')}">0</span>
+                        </div>
+                        <div class="text-muted small">
+                            Pending (<span th:text="${pendingCount}">0</span>)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-2">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body d-flex align-items-center gap-3">
+                    <div class="bg-secondary bg-opacity-10 rounded-3 p-3">
+                        <i class="fas fa-layer-group fa-lg text-secondary"></i>
+                    </div>
+                    <div>
+                        <div class="fs-4 fw-bold" th:text="${totalPlans}">0</div>
+                        <div class="text-muted small">Total Plans</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body">
+            <h6 class="fw-bold mb-3">Quick Actions</h6>
+            <div class="d-flex flex-wrap gap-2">
+                <a th:href="@{/customers/new}" class="btn btn-outline-primary btn-sm">
+                    <i class="fas fa-user-plus me-1"></i>Add Customer
+                </a>
+                <a th:href="@{/chit-plans/new}" class="btn btn-outline-success btn-sm"
+                   sec:authorize="hasRole('ADMIN')">
+                    <i class="fas fa-plus-circle me-1"></i>Create Chit Plan
+                </a>
+                <a th:href="@{/payments/record}" class="btn btn-outline-info btn-sm">
+                    <i class="fas fa-money-bill me-1"></i>Record Payment
+                </a>
+                <a th:href="@{/payments/pending}" class="btn btn-outline-warning btn-sm">
+                    <i class="fas fa-exclamation-triangle me-1"></i>View Pending
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Payments Table -->
+    <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+            <h6 class="fw-bold mb-0">
+                <i class="fas fa-history me-2 text-primary"></i>Recent Payments
+            </h6>
+            <a th:href="@{/payments}" class="btn btn-sm btn-outline-primary">View All</a>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table data-toggle="table"
+                       data-pagination="true"
+                       data-page-size="5"
+                       data-page-list="[5,10,25]"
+                       data-search="true"
+                       data-classes="table table-hover align-middle mb-0"
+                       data-thead-classes="table-light">
+                    <thead>
+                    <tr>
+                        <th data-sortable="true">Receipt No</th>
+                        <th data-sortable="true">Customer</th>
+                        <th data-sortable="true">Plan</th>
+                        <th data-sortable="true">Month</th>
+                        <th data-sortable="true">Amount</th>
+                        <th data-sortable="false">Mode</th>
+                        <th data-sortable="true">Status</th>
+                        <th data-sortable="true">Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="p : ${recentPayments}">
+                        <td><code th:text="${p.receiptNo}"></code></td>
+                        <td th:text="${p.customerName}"></td>                          <!-- ✅ DTO field -->
+                        <td th:text="${p.planName}"></td>                              <!-- ✅ DTO field -->
+                        <td th:text="${p.monthNumber}"></td>
+                        <td class="fw-semibold">
+                            ₹<span th:text="${#numbers.formatDecimal(p.amountPaid,1,'COMMA',2,'POINT')}"></span>
+                        </td>
+                        <td>
+                            <span class="badge bg-secondary" th:text="${p.paymentMode}"></span>
+                        </td>
+                        <td>
+        <span th:class="${p.status == 'PAID'    ? 'badge bg-success' :
+                          p.status == 'PENDING' ? 'badge bg-danger'  :
+                                                  'badge bg-warning text-dark'}"
+              th:text="${p.status}"></span>
+                        </td>
+                        <td class="text-muted small" th:text="${p.paymentDate}"></td> <!-- ✅ already String in DTO -->
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(recentPayments)}">
+                        <td colspan="8" class="text-center text-muted py-4">
+                            No payments recorded yet
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- End mainContent -->
+
+<!-- Profile Edit Option -->
+<div th:replace="~{layouts/profile :: profileEdit}"></div>
+<!-- Footer -->
+<th:block th:replace="~{layouts/footer :: common_footer}">
+</th:block>
+
+<!-- JS -->
+<script th:src="@{/js/navbar.js}"></script>
+<script th:src="@{/js/sidebar.js}"></script>
+
+</body>
+</html>

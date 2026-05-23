@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<nav th:fragment="navbar"
+     class="navbar navbar-dark bg-primary px-3 d-flex justify-content-between align-items-center"
+     style="position:fixed;top:0;left:0;right:0;z-index:1000;height:56px;">
+
+    <!-- LEFT: Sidebar toggle + Brand -->
+    <div class="d-flex align-items-center gap-2">
+        <button onclick="toggleSidebar()"
+                style="background:none;border:none;color:white;font-size:20px;cursor:pointer;padding:0 8px 0 0;line-height:1;">
+            <i class="fas fa-bars"></i>
+        </button>
+        <a class="navbar-brand fw-bold mb-0" th:href="@{/}">
+            <i class="fas fa-coins me-2"></i>ChitManage
+        </a>
+    </div>
+
+    <!-- RIGHT: Bell + Profile -->
+    <div class="d-flex align-items-center gap-3">
+
+        <!-- Profile Circle -->
+        <div class="position-relative">
+            <div id="profileCircle" onclick="toggleProfile()"
+                 style="width:38px;height:38px;border-radius:50%;background:#ffffff33;
+                        border:2px solid white;display:flex;align-items:center;
+                        justify-content:center;cursor:pointer;user-select:none;">
+                <i class="fas fa-user" style="color:white;font-size:16px;"></i>
+            </div>
+
+            <!-- Profile Dropdown -->
+            <div id="profileDropdown"
+                 style="display:none;position:fixed;right:12px;top:56px;width:230px;
+                        z-index:9999;background:white;border-radius:8px;
+                        box-shadow:0 4px 16px rgba(0,0,0,0.15);">
+                <!-- User info -->
+                <div class="p-3 border-bottom text-center">
+                    <div style="width:52px;height:52px;border-radius:50%;background:#0d6efd;
+                                display:flex;align-items:center;justify-content:center;margin:0 auto 8px;">
+                        <i class="fas fa-user" style="color:white;font-size:22px;"></i>
+                    </div>
+                    <div style="font-size:14px;font-weight:600;color:#333;">
+                        <sec:authentication property="name"/>
+                    </div>
+                    <div style="font-size:12px;color:#888;">
+                        <sec:authentication property="authorities"/>
+                    </div>
+                </div>
+
+                <!-- Edit Profile — opens modal -->
+                <a href="javascript:void(0)"
+                   onclick="openProfileModal()"
+                   class="d-flex align-items-center gap-2 p-3
+          border-bottom text-decoration-none"
+                   style="color:#333; font-size:14px;">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         width="16" height="16" fill="#555"
+                         viewBox="0 0 24 24">
+                        <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4
+                 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2
+                 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2
+                 -6.4-4.8-9.6-4.8z"/>
+                    </svg>
+                    Edit Profile
+                </a>
+                <!-- Change Password -->
+                <a href="javascript:void(0)" onclick="openPasswordModal()"
+                   class="d-flex align-items-center gap-2 p-3 border-bottom text-decoration-none"
+                   style="color:#333;font-size:14px;">
+                    <i class="fas fa-key" style="color:#555;width:16px;"></i> Change Password
+                </a>
+                <!-- Logout -->
+                <a href="javascript:void(0)" id="logoutUser"
+                   class="d-flex align-items-center gap-2 p-3 text-decoration-none"
+                   style="color:#dc3545;font-size:14px;">
+                    <i class="fas fa-sign-out-alt" style="color:#dc3545;width:16px;"></i> Logout
+                </a>
+            </div>
+        </div>
+        <!-- end profile -->
+
+    </div>
+</nav>
+
+
+</body>
+</html>

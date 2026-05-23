@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+
+<div th:fragment="sidebar" id="sidebar">
+    <ul class="list-unstyled m-0 p-0 pt-2">
+
+        <li>
+            <a th:href="@{/}" class="menu-item">
+                <i class="fas fa-tachometer-alt"></i>
+                <span class="menu-text">Dashboard</span>
+            </a>
+        </li>
+
+        <li>
+            <!-- Submenu trigger -->
+            <div class="menu-item" onclick="toggleMenu('customers')">
+                <i class="fas fa-users"></i>
+                <span class="menu-text">Customers</span>
+                <i class="fas fa-chevron-right arrow ms-auto"></i>
+            </div>
+            <div class="submenu" id="sub-customers">
+                <a th:href="@{/customers}" class="submenu-item">
+                    <i class="fas fa-list"></i>All Customers
+                </a>
+                <a th:href="@{/customers/new}" class="submenu-item">
+                    <i class="fas fa-user-plus"></i>Add Customer
+                </a>
+            </div>
+        </li>
+
+        <li>
+            <div class="menu-item" onclick="toggleMenu('chitplans')">
+                <i class="fas fa-file-contract"></i>
+                <span class="menu-text">Chit Plans</span>
+                <i class="fas fa-chevron-right arrow ms-auto"></i>
+            </div>
+            <div class="submenu" id="sub-chitplans">
+                <a th:href="@{/chit-plans}" class="submenu-item">
+                    <i class="fas fa-list"></i>All Plans
+                </a>
+                <a th:href="@{/chit-plans/new}" class="submenu-item"
+                   sec:authorize="hasRole('ADMIN')">
+                    <i class="fas fa-plus-circle"></i>New Chit Plan
+                </a>
+                <a th:href="@{/enrollments}" class="submenu-item">
+                    <i class="fas fa-user-check"></i>Enrollments
+                </a>
+            </div>
+        </li>
+
+        <li>
+            <div class="menu-item" onclick="toggleMenu('payments')">
+                <i class="fas fa-money-bill-wave"></i>
+                <span class="menu-text">Payments</span>
+                <i class="fas fa-chevron-right arrow ms-auto"></i>
+            </div>
+            <div class="submenu" id="sub-payments">
+                <a th:href="@{/payments}" class="submenu-item">
+                    <i class="fas fa-list"></i>All Payments
+                </a>
+                <a th:href="@{/payments/record}" class="submenu-item">
+                    <i class="fas fa-plus-circle"></i>Record Payment
+                </a>
+                <a th:href="@{/payments/pending}" class="submenu-item">
+                    <i class="fas fa-clock"></i>Pending
+                </a>
+            </div>
+        </li>
+
+    </ul>
+</div>
+
+<!-- Overlay (mobile) -->
+<div id="sidebarOverlay"></div>
+
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{layouts/header :: common_head('Session Expired')}"></th:block>
+    <link rel="stylesheet" th:href="@{/css/session-expired.css}">
+</head>
+<body>
+
+<div class="container">
+    <div class="d-flex justify-content-center">
+        <div class="error-box">
+
+            <!-- Icon -->
+            <div class="icon-circle">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512" fill="#856404">
+                    <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 120c0-13.3 10.7-24 24-24s24 10.7 24 24l0 136 80 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-104 0c-13.3 0-24-10.7-24-24l0-160z"/>
+                </svg>
+            </div>
+
+            <!-- Error Code -->
+            <div class="error-code" th:text="${code}">401</div>
+
+            <!-- Title -->
+            <h5 class="mt-2 mb-1 fw-semibold text-dark">Session Expired</h5>
+
+            <!-- Message -->
+            <p class="text-muted mb-4" style="font-size: 14px;" th:text="${message}">
+                Your session has timed out due to inactivity. Please log in again to continue.
+            </p>
+
+            <!-- Reason Box -->
+            <div class="alert alert-warning text-start py-2 px-3 mb-4" style="font-size: 13px;">
+                <strong>Why did this happen?</strong>
+                <ul class="mb-0 mt-1 ps-3">
+                    <li>You were inactive for too long</li>
+                    <li>JWT token has expired</li>
+                    <li>Your account was signed in elsewhere</li>
+                </ul>
+            </div>
+
+            <!-- Buttons -->
+            <a th:href="@{/login}" class="btn btn-danger w-100 mb-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512" fill="white" style="margin-right: 8px;">
+                    <path d="M352 96l64 0c17.7 0 32 14.3 32 32l0 256c0 17.7-14.3 32-32 32l-64 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l64 0c53 0 96-43 96-96l0-256c0-53-43-96-96-96l-64 0c-17.7 0-32 14.3-32 32s14.3 32 32 32zm-9.4 182.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L242.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l210.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128z"/>
+                </svg>Log in again
+            </a>
+
+            <p class="text-muted mt-3 mb-0" style="font-size: 12px;">
+                Your data is safe. Nothing was lost.
+            </p>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

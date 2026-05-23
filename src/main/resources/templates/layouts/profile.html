@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="profileEdit" id="profileEdit">
+    <!-- ══════════════════════════════════════════ -->
+    <!-- PROFILE EDIT MODAL                         -->
+    <!-- ══════════════════════════════════════════ -->
+    <div class="modal fade" id="profileModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">
+                        <i class="fas fa-user me-2"></i>
+                        Edit Profile
+                    </h5>
+                    <button type="button"
+                            class="btn-close btn-close-white"
+                            data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+
+                    <!-- Profile info header -->
+                    <div class="d-flex align-items-center
+                            gap-3 mb-4 p-3
+                            bg-light rounded">
+                        <div style="width:60px; height:60px;
+                                border-radius:50%;
+                                background:#0d6efd;
+                                display:flex;
+                                align-items:center;
+                                justify-content:center;
+                                font-size:24px;
+                                font-weight:bold;
+                                color:white;"
+                             id="profileAvatarLarge">?</div>
+                        <div>
+                            <div id="profileNameDisplay"
+                                 class="fw-bold fs-5">
+                                Loading...
+                            </div>
+                            <div id="profileEmailDisplay"
+                                 class="text-muted small">
+                            </div>
+                            <div id="profileRoleDisplay">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="profileError"
+                         class="alert alert-danger d-none"></div>
+                    <div id="profileSuccess"
+                         class="alert alert-success d-none"></div>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">
+                                Full Name
+                                <span class="text-danger">*</span>
+                            </label>
+                            <input type="text" id="pName"
+                                   class="form-control"
+                                   placeholder="Full name">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">
+                                Phone
+                            </label>
+                            <input type="text" id="pPhone"
+                                   class="form-control"
+                                   placeholder="Phone number">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">
+                                Gender
+                            </label>
+                            <select id="pGender"
+                                    class="form-select">
+                                <option value="">Select Gender</option>
+                                <option value="MALE">Male</option>
+                                <option value="FEMALE">Female</option>
+                                <option value="OTHER">Other</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">
+                                Address
+                            </label>
+                            <textarea id="pAddress"
+                                      class="form-control"
+                                      rows="2"
+                                      placeholder="Full address">
+                        </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button type="button"
+                            class="btn btn-primary"
+                            onclick="saveProfile()">
+                        <i class="fas fa-save me-1"></i>
+                        Save Profile
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- CHANGE PASSWORD MODAL                      -->
+    <!-- ══════════════════════════════════════════ -->
+    <div class="modal fade" id="passwordModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-warning text-dark">
+                    <h5 class="modal-title">
+                        <i class="fas fa-lock me-2"></i>
+                        Change Password
+                    </h5>
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+
+                    <div id="pwError"
+                         class="alert alert-danger d-none"></div>
+                    <div id="pwSuccess"
+                         class="alert alert-success d-none"></div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">
+                            Current Password
+                            <span class="text-danger">*</span>
+                        </label>
+                        <div class="input-group">
+                            <input type="password"
+                                   id="currentPw"
+                                   class="form-control"
+                                   placeholder="Current password">
+                            <button class="btn btn-outline-secondary"
+                                    type="button"
+                                    onclick="togglePw('currentPw',
+                                        'eyeCurrent')">
+                                <i class="fas fa-eye"
+                                   id="eyeCurrent"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">
+                            New Password
+                            <span class="text-danger">*</span>
+                        </label>
+                        <div class="input-group">
+                            <input type="password"
+                                   id="newPw"
+                                   class="form-control"
+                                   placeholder="Min 6 characters">
+                            <button class="btn btn-outline-secondary"
+                                    type="button"
+                                    onclick="togglePw('newPw',
+                                        'eyeNew')">
+                                <i class="fas fa-eye"
+                                   id="eyeNew"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">
+                            Confirm New Password
+                            <span class="text-danger">*</span>
+                        </label>
+                        <div class="input-group">
+                            <input type="password"
+                                   id="confirmPw"
+                                   class="form-control"
+                                   placeholder="Repeat new password">
+                            <button class="btn btn-outline-secondary"
+                                    type="button"
+                                    onclick="togglePw('confirmPw',
+                                        'eyeConfirm')">
+                                <i class="fas fa-eye"
+                                   id="eyeConfirm"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Password strength indicator -->
+                    <div class="mb-2">
+                        <small class="text-muted">
+                            Password strength:
+                        </small>
+                        <div class="progress mt-1"
+                             style="height:6px;">
+                            <div id="pwStrengthBar"
+                                 class="progress-bar"
+                                 style="width:0%"></div>
+                        </div>
+                        <small id="pwStrengthText"
+                               class="text-muted"></small>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button type="button"
+                            class="btn btn-warning"
+                            onclick="savePassword()">
+                        <i class="fas fa-key me-1"></i>
+                        Update Password
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+

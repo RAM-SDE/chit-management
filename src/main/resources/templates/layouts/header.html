@@ -1,0 +1,16 @@
+<th:block xmlns:th="http://www.thymeleaf.org" th:fragment="common_head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+
+    <title th:text="${title}">Chit</title>
+
+    <link rel="stylesheet" th:href="@{/css/alertify.min.css}">
+    <link rel="stylesheet" th:href="@{/css/css/all.min.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap-table.min.css}">
+
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}">
+</th:block>

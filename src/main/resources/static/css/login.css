@@ -1,0 +1,16 @@
+/* Error red border */
+.error-input {
+    border-color: red !important;
+}
+
+/* Normal border */
+.normal-input {
+    border-color: #ced4da !important;
+}
+
+/* Error text */
+.field-error {
+    color: red;
+    font-size: 14px;
+    min-height: 18px;
+}

@@ -1,0 +1,33 @@
+body {
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.error-code {
+    font-size: 72px;
+    font-weight: 700;
+    color: #dc3545;
+    line-height: 1;
+}
+.error-box {
+    background: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 12px;
+    padding: 2.5rem 2rem;
+    max-width: 440px;
+    width: 100%;
+    text-align: center;
+}
+.icon-circle {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: #f8d7da;
+    border: 1px solid #f5c2c7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+}
